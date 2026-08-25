@@ -3,7 +3,6 @@ package workflow
 import (
 	"bakery34/model"
 	"bakery34/service"
-	"fmt"
 )
 
 type Engine struct{ s *service.Service }
@@ -28,11 +27,5 @@ func (e *Engine) Recover(id string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if r.DisplayStatus() == "pending" {
-		return "normal", nil
-	}
-	if r.DisplayStatus() == "archived" {
-		return "normal", nil
-	}
-	return fmt.Sprintf("%s", r.DisplayStatus()), nil
+	return recoverAfterResourceClose(r), nil
 }
